@@ -1,7 +1,3 @@
-import Hello from "./Hello";
-import Wrapper from "./Wrapper";
-import Counter from "./Counter";
-import InputSample from "./Input";
 import UserList from "./UserList";
 import {useRef, useState} from "react";
 import CreateUser from "./CreateUser";
@@ -15,23 +11,26 @@ function App() {
     {
       id: 1,
       username: 'velopert',
-      email: 'public.velopert@gmail.com'
+      email: 'public.velopert@gmail.com',
+      active: true
     },
     {
       id: 2,
       username: 'tester',
-      email: 'tester@example.com'
+      email: 'tester@example.com',
+      active: false
     },
     {
       id: 3,
       username: 'liz',
-      email: 'liz@example.com'
+      email: 'liz@example.com',
+      active: false
     }
   ]);
 
-  const { username, email } = inputs;
+  const {username, email} = inputs;
   const onChange = e => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     /**
      * 기존 inputs 는 옮겨 담고 새로운 value 는 name 과 매칭하여 값 세팅
      */
@@ -65,25 +64,16 @@ function App() {
     setUsers(users.filter(user => user.id !== id));
   }
 
+  const onToggle = id => {
+    setUsers(
+      users.map(user =>
+        user.id === id ? {...user, active: !user.active} : user
+      )
+    );
+  }
+
 
   return (
-    // <Wrapper>
-    /**
-     * jsx, props, component 재사용에 대해 학습
-     */
-    //   <Hello name="react" color="red" isSpecial={true}/>
-    //   <Hello color="pink"/>
-    // </Wrapper>
-    /**
-     * React Hooks 중 하나인 state 학습
-     * useState 로 상태값을 변화하고 상태가 변하면 해당 컴포넌트와 자식 컴포넌트도 리렌더링
-     * 함수형 업데이트
-    <Counter/>
-     */
-    /**
-     * useState 사용하여 상태 관리
-     */
-    // <InputSample/>
     <>
       <CreateUser
         username={username}
@@ -93,6 +83,7 @@ function App() {
       />
       <UserList users={users}
                 onRemove={onRemove}
+                onToggle={onToggle}
       />
     </>
   );
