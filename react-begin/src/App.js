@@ -3,7 +3,6 @@ import {useCallback, useMemo, useRef, useState} from "react";
 import CreateUser from "./CreateUser";
 
 function countActiveUsers(users) {
-  console.log('활성 사용자 수를 세는중...');
   return users.filter(user => user.active).length;
 }
 
@@ -34,17 +33,16 @@ function App() {
   ]);
 
   const {username, email} = inputs;
-  const onChange = useCallback(
-    e => {
+  const onChange = useCallback(e => {
       const {name, value} = e.target;
       /**
        * 기존 inputs 는 옮겨 담고 새로운 value 는 name 과 매칭하여 값 세팅
        */
-      setInputs({
+      setInputs(inputs => ({
         ...inputs,
         [name]: value
-      });
-    }, [inputs]);
+      }));
+    }, []);
 
   /**
    * useRef() 는 re-rendering 시 초기화되지 않는다.
@@ -56,27 +54,26 @@ function App() {
       username,
       email
     };
-
-    setUsers([...users, user]); // 불변을 유지하기 위해 spread operator 사용하여 기존 배열을 복사
+    setUsers(users => [...users, user]); // 불변을 유지하기 위해 spread operator 사용하여 기존 배열을 복사
 
     setInputs({
       username: '',
       email: ''
     });
     nextId.current += 1;
-  }, [users, username, email]);
+  }, [username, email]);
 
   const onRemove = useCallback(id => {
-    setUsers(users.filter(user => user.id !== id));
+    setUsers(users => users.filter(user => user.id !== id));
   }, [users]);
 
   const onToggle = useCallback(id => {
-    setUsers(
+    setUsers(users =>
       users.map(user =>
         user.id === id ? {...user, active: !user.active} : user
       )
     );
-  }, [users]);
+  }, []);
 
 
   const count = useMemo(() => countActiveUsers(users), [users]);
