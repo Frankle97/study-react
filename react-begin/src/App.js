@@ -1,7 +1,7 @@
 import UserList from "./UserList";
 import React, {useCallback, useMemo, useReducer, useRef} from 'react';
 import CreateUser from "./CreateUser";
-import useInputs from "./useInput";
+import produce from 'immer';
 
 function countActiveUsers(users) {
   return users.filter(user => user.active).length;
@@ -37,18 +37,26 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'CREATE_USER':
-      return {
-        users: state.users.concat(action.user)
-      };
+      return produce(state, draft => {
+        draft.users.push(action.user);
+      });
     case 'TOGGLE_USER':
-      return {
-        users: state.users.map(user =>
-          user.id === action.id ? { ...user, active: !user.active } : user)
-      }
+      // return {
+      //   users: state.users.map(user =>
+      //     user.id === action.id ? { ...user, active: !user.active } : user)
+      // }
+      return produce(state, draft => {
+        const user = draft.users.find(user => user.id === action.id);
+        user.active = !user.active;
+      });
     case 'REMOVE_USER':
-      return {
-        users: state.users.filter(user => user.id !== action.id)
-      }
+      // return {
+      //   users: state.users.filter(user => user.id !== action.id)
+      // }
+      return produce(state, draft => {
+        const index = draft.users.find(user => user.id === action.id);
+        draft.users.splice(index, 1);
+      });
     default:
       return state;
   }
