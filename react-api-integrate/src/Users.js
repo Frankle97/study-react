@@ -9,7 +9,7 @@ function Users() {
 
   const {data: users, loading, error} = state.users;
   const fetchData = () => {
-    getUsers(dispatch).then();
+    getUsers(dispatch);
   };
 
   if (loading) return <div>로딩중...</div>;
