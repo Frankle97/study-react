@@ -1,9 +1,35 @@
-function sum(x: number, y: number): number {
-  return x + y;
+enum QueueType {
+  enqueue,
+  dequeue
 }
 
-sum(1, 2);
+class Queue<T> {
+  list: T[] = [];
 
-function sumArray(numbers: number[]): number {
-  return numbers.reduce((acc, current) => acc + current, 0);
+  get length() {
+    return this.list.length;
+  }
+
+  enqueue(item: T) {
+    this.list.push(item);
+  }
+
+  dequeue() {
+    return this.list.shift();
+  }
+}
+
+const queue = new Queue<number>();
+iterate(QueueType.enqueue);
+iterate(QueueType.dequeue);
+
+function iterate(queueType: QueueType) {
+  for (let i = 0; i <= 4; i++) {
+    if (queueType === QueueType.enqueue) {
+      queue.enqueue(i);
+    } else {
+      console.log(queue.dequeue());
+    }
+  }
+
 }
