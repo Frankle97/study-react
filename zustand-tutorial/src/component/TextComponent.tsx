@@ -21,6 +21,7 @@ const TextComponent = () => {
     state.fontSize,
     state.increaseFontSize
   ]);
+  const abc = useStore((state) => state.fontSize);
   return (
     <div>
       <p style={{fontSize}}>
