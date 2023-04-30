@@ -1,8 +1,9 @@
-import MyComponent from "./MyComponent";
 import Counter from "./Counter";
+import EventPractice from "./EventPractice";
+import IterationSample from "./IterationSample";
 
 const App = ()  =>{
-  return <Counter/>
+  return <IterationSample/>
 }
 
 export default App;
