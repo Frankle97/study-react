@@ -20,7 +20,7 @@ function counter(state = initialState, action) {
   switch (action.type) {
     case INCREASE:
       return {
-        number: state + 1
+        number: state.number + 1
       };
     case DECREASE:
       return {
